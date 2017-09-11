@@ -1,0 +1,17 @@
+allprojects {
+    group 'renatosrib'
+    version '1.0-SNAPSHOT'
+
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        maven {
+            url 'https://repo.spring.io/libs-snapshot'
+
+        }
+    }
+
+}
