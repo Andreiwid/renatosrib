@@ -1,4 +1,7 @@
 import jdk.internal.org.xml.sax.SAXException
+import org.apache.lucene.document.Document
+import org.apache.lucene.document.Field
+import org.apache.tika.Tika
 import org.apache.tika.parser.Parser;
 import org.apache.tika.exception.TikaException
 import org.apache.tika.extractor.ParsingEmbeddedDocumentExtractor
@@ -15,49 +18,42 @@ import parser.EmbeddedFilesExtractor
 
 class ParserPOC {
 
-    static String parseToPlainText() throws IOException, SAXException, TikaException {
-        BodyContentHandler handler = new BodyContentHandler()
-        ParseContext parseContext = new ParseContext()
-
-        AutoDetectParser parser = new AutoDetectParser()
-        EmbeddedFilesExtractor extractor = new EmbeddedFilesExtractor(new File("/tmp/lucene6idx/").toPath(), parseContext)
-        parseContext.set(extractor.class,  extractor)
-
-        Metadata metadata = new Metadata()
-        InputStream inputStream = new FileInputStream('/home/renato/Documentos/pasta-monitorada/teste/certificado nivel 3 - melt.pdf')
-        parser.parse(inputStream, handler, metadata, parseContext)
-        return handler.toString()
-
-    }
-
     @Test
-    public void testParse() {
-        parseToPlainText()
-    }
-
-    static String parseToPlainText2() {
-        InputStream stream = new FileInputStream('/home/renato/Documentos/pasta-monitorada/teste/certificado nivel 3 - melt.pdf');
-
+    public void parseToPlainText() throws IOException, SAXException, TikaException {
         Parser parser = new AutoDetectParser();
-        BodyContentHandler handler = new BodyContentHandler(
-                Integer.MAX_VALUE);
-
         TesseractOCRConfig config = new TesseractOCRConfig();
+        config.setLanguage("por")
         PDFParserConfig pdfConfig = new PDFParserConfig();
+        pdfConfig.setExtractInlineImages(true);
+        pdfConfig.setExtractUniqueInlineImagesOnly(false); // set to false if pdf contains multiple images.
         ParseContext parseContext = new ParseContext();
-
         parseContext.set(TesseractOCRConfig.class, config);
         parseContext.set(PDFParserConfig.class, pdfConfig);
-        parseContext.set(Parser.class, parser); // need to add this to make
-        // sure recursive parsing
-        // happens!
-        Metadata metadata = new Metadata();
-        parser.parse(stream, handler, metadata, parseContext);
-        return handler.toString().trim();
+        //need to add this to make sure recursive parsing happens!
+        parseContext.set(Parser.class, parser);
+        createDocs("/home/renato/Documentos/pasta-monitorada", parser, parseContext)
+        parser.parse()
+
     }
 
-    @Test
-    public void testParse2() {
-        parseToPlainText2()
+    static  void createDocs(String path, Parser parser, ParseContext parseContext ) {
+        File file = new File(path)
+
+        for(File currentFile :file.listFiles()) {
+            if(currentFile.isFile()) {
+                FileInputStream fileInputStream = new FileInputStream((currentFile))
+                BodyContentHandler handler = new BodyContentHandler(Integer.MAX_VALUE);
+
+                parser.parse(fileInputStream, handler, new Metadata(), parseContext)
+                println handler.toString()
+//                Tika tika = new Tika(new AutoDetectParser().getDetector(), parser)
+//                FileInputStream fileInputStream = new FileInputStream(currentFile)
+//                String fileContent = parser.parse(fileInputStream, handler, new Metadata(), parseContext )
+//                tika.parse(currentFile).getText()
+            } else {
+                createDocs(currentFile.path, parser,  parseContext)
+            }
+
+        }
     }
 }
