@@ -1,0 +1,30 @@
+ext {
+   springBootVersion = '1.5.7.RELEASE'
+}
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+bootRepackage {
+    mainClass = 'br.com.renatosrib.indexer.Application'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+}
+
