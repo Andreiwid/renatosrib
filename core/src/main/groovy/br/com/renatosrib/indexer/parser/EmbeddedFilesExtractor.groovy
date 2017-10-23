@@ -1,4 +1,4 @@
-package parser
+package br.com.renatosrib.indexer.parser
 
 import org.apache.commons.io.FilenameUtils
 import org.apache.tika.config.TikaConfig

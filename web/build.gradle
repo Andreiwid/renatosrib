@@ -24,6 +24,7 @@ bootRepackage {
 }
 
 dependencies {
+    compile project(":service")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 }

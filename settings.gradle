@@ -1,3 +1,5 @@
 rootProject.name = 'indexer'
 include 'core'
+include 'web'
+include 'parser'
 
