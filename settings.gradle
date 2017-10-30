@@ -1,5 +1,2 @@
-rootProject.name = 'indexer'
-include 'core'
-include 'web'
-include 'parser'
+rootProject.name = 'indexer-starter'
 
