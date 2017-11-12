@@ -10,8 +10,6 @@ import org.apache.tika.parser.ocr.TesseractOCRConfig
 import org.apache.tika.parser.pdf.PDFParserConfig
 import org.apache.tika.sax.BodyContentHandler
 import org.elasticsearch.action.search.SearchPhaseExecutionException
-import org.elasticsearch.common.io.stream.NotSerializableExceptionWrapper
-import org.elasticsearch.search.SearchParseException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -50,7 +48,6 @@ class DocumentExtractorServiceImpl implements IDocumentExtractorService {
         //Evita loop infinito
         this.parseContext.set(Parser.class, parser)
 
-        Document document = new Document()
         Document possiblyExistentFile
         try{
             possiblyExistentFile = repository.findByPath(file.absolutePath)
@@ -58,18 +55,20 @@ class DocumentExtractorServiceImpl implements IDocumentExtractorService {
             println "Não foi possível buscar pelo path "+ file.absolutePath
         }
         if(possiblyExistentFile == null || possiblyExistentFile.lastModification != file.lastModified()) {
+            Document document = new Document()
+
             FileInputStream fileInputStream = new FileInputStream((file))
             BodyContentHandler handler = new BodyContentHandler(Integer.MAX_VALUE)
             Metadata metadata = new Metadata()
             parser.parse(fileInputStream, handler, metadata, parseContext)
             document.content = handler.toString()
-            document.path = file.absolutePath
+            document.id = file.absolutePath
             document.fileName = file.name
             document.lastModification = file.lastModified()
             println document.fileName + " indexado com sucesso."
-            repository.save(document)
+            return repository.save(document)
         }
-        return document
+        return null
     }
 
     private List<Document> indexFolder(String folder) {
