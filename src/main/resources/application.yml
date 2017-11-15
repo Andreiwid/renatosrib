@@ -1,4 +1,8 @@
+
+
 spring:
+  application:
+    name: index-starter
   data:
     elasticsearch:
       cluster-nodes: localhost:9300

@@ -3,5 +3,7 @@
 idea/
 gradle/
 out/*
-
+build
+node_modules
+src/main/resources/static
 

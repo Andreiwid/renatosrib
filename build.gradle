@@ -27,6 +27,10 @@ repositories {
     mavenCentral()
 }
 
+bootRun {
+    addResources = true
+}
+
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.9'
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
