@@ -3,6 +3,7 @@ package br.com.renatosrib.indexer.controller
 import br.com.renatosrib.indexer.model.Document
 import br.com.renatosrib.indexer.service.IDocumentExtractorService
 import br.com.renatosrib.indexer.service.IDocumentService
+import br.com.renatosrib.indexer.to.DocumentTo
 import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -55,7 +56,7 @@ class SearchController {
     }
 
     @RequestMapping("/")
-    List<Document> documents() {
+    List<DocumentTo> documents() {
         return documentService.findAll()
     }
 }

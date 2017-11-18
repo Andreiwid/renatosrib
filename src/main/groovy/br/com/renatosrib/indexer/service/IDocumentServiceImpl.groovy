@@ -87,7 +87,11 @@ class IDocumentServiceImpl implements IDocumentService {
     }
 
     @Override
-    List<Document> findAll() {
-        return repository.findAll().toList()
+    List<DocumentTo> findAll() {
+        List<DocumentTo> documents = [];
+        repository.findAll().each { document ->
+            documents.add(DocumentTo.fromDocument(document));
+        }
+        return documents
     }
 }

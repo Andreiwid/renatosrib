@@ -10,6 +10,6 @@ interface IDocumentService {
 
     public List<DocumentTo> findByContent(String content, Pageable pageRequest)
 
-    public List<Document> findAll()
+    public List<DocumentTo> findAll()
 
 }
