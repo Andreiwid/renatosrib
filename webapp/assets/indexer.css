@@ -1,3 +1,8 @@
+em {
+    background-color: yellow;
+    font-style: inherit;
+}
+
 .title {
     color: white;
 }
@@ -48,5 +53,10 @@
 
 .iterable {
     cursor: pointer;
+}
+
+.item-found {
+    list-style: inside;
+    list-style-type: disc;
 }
 

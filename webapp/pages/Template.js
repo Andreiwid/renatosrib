@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/header'
+import Header from '../components/header';
 
 class Template extends React.Component {
   constructor(props) {
@@ -10,10 +10,10 @@ class Template extends React.Component {
   render() {
     return (
       <div>
-        <Header/>
+        <Header />
         <section className="sv-container-horizontal">
-          <main className="main-area sv-ml--10">            
-              <div >{this.props.children}</div>            
+          <main className="main-area sv-ml--10">
+            <div>{this.props.children}</div>
           </main>
         </section>
       </div>

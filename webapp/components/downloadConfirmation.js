@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { debug } from 'util';
+import { v4 } from 'uuid';
 
 export default class DownloadConfirmation extends Component {
   constructor(props) {
@@ -29,13 +31,15 @@ export default class DownloadConfirmation extends Component {
       );
 
       if (this.props.file.contentHighlighted) {
-        let items = this.props.file.contentHighlighted.map(item => {
-          return <li className="text sv-pv--5">{item}</li>;
+        let items = this.props.file.contentHighlighted.map((item, index) => {
+          if (index < 5) {
+            return <li key={v4()} className="item-found sv-pv--5" dangerouslySetInnerHTML={{ __html: item }} />;
+          }
         });
-        if (items.lenght > 0) {
+        if (items.length > 0) {
           contentHighlighted = (
             <div>
-              <b>Trechos encontrados</b>
+              <b>Alguns trechos encontrados</b>
               <ul>{items}</ul>
             </div>
           );

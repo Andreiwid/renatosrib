@@ -23,7 +23,7 @@ class HomePage extends React.Component {
         <Modal
           title="Fazer download do arquivo?"
           confirmButtonText="Download"
-          type="small"
+          type="medium"
           isVisible={homeStore.fileToDownload != null}
           onClose={() => {
             homeStore.closeFileDownload();

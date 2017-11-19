@@ -25,21 +25,21 @@ class HomeStore {
 
   @action
   search(term) {
-    debugger;
-    homeService
-      .search(term)
-      .then(response => {
-        runInAction('Busca lista filtrada', () => {
-          debugger;
-          this.files = response.data;
+    if (term.length > 3) {
+      homeService
+        .search(term)
+        .then(response => {
+          runInAction('Busca lista filtrada', () => {
+            this.files = response.data;
+          });
+        })
+        .catch(response => {
+          console.error(response);
+          Hermes.clearMessages();
+          Hermes.setContext('error');
+          Hermes.addMessage('Houve um problema e não foi possível buscar os arquivos.', true);
         });
-      })
-      .catch(response => {
-        console.error(response);
-        Hermes.clearMessages();
-        Hermes.setContext('error');
-        Hermes.addMessage('Houve um problema e não foi possível buscar os arquivos.', true);
-      });
+    }
   }
 
   @action
