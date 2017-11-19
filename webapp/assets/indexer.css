@@ -2,6 +2,10 @@
     color: white;
 }
 
+.cards {
+    justify-content: flex-start;        
+}
+
 .line {
     width: 100%;
 }
@@ -9,3 +13,40 @@
 .main-area {
     width: 99%;
 }
+
+.card {
+    flex: 1;
+    width: 300px;
+    height: 340px;    
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.filename  {    
+    width: 220px;
+    height: 70px;
+    align-self: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.text  {                
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;    
+}
+
+.text.reverse  {                
+    text-overflow: ellipsis;
+    direction: rtl;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.iterable {
+    cursor: pointer;
+}
+

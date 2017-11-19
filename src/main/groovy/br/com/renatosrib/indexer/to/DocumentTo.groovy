@@ -11,7 +11,7 @@ class DocumentTo {
 
     Long lastModification
 
-    List<String> contentHighlithed
+    List<String> contentHighlighted
 
     public static DocumentTo fromDocument(Document document) {
         DocumentTo documentTo = new DocumentTo();

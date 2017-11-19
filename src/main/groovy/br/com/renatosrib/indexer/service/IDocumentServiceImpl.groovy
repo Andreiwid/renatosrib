@@ -5,14 +5,10 @@ import br.com.renatosrib.indexer.repository.DocumentRepository
 import br.com.renatosrib.indexer.to.DocumentTo
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.common.unit.Fuzziness
-import org.elasticsearch.index.query.MultiMatchQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.SearchHit
 import org.elasticsearch.search.highlight.HighlightBuilder
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.core.SearchResultMapper
@@ -23,9 +19,6 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery
 import org.springframework.stereotype.Service
 
 import static java.lang.Long.parseLong
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery
-import static org.elasticsearch.index.query.QueryBuilders.termQuery
-
 
 @Service
 class IDocumentServiceImpl implements IDocumentService {
@@ -70,9 +63,9 @@ class IDocumentServiceImpl implements IDocumentService {
                     documentTo.fileName = documentTo.content = searchHit.source.get("fileName")
                     documentTo.content = searchHit.source.get("content")
                     documentTo.lastModification = parseLong((String) searchHit.source.get("lastModification"))
-                    documentTo.contentHighlithed =  []
+                    documentTo.contentHighlighted =  []
                     searchHit.highlightFields.get("content")?.fragments()?.each {highlight ->
-                        documentTo.contentHighlithed.add(highlight.toString())
+                        documentTo.contentHighlighted.add(highlight.toString())
                     }
                     results.add(documentTo)
                 }
