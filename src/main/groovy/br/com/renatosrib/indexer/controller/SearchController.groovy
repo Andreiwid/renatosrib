@@ -50,7 +50,7 @@ class SearchController {
 
     @RequestMapping(value = "/search", method = [RequestMethod.GET])
     @ResponseBody
-    List<Document> search2(@RequestParam(required = true,  value="content") String term, @RequestParam(required = false, defaultValue = "1", value="page") Integer page, @RequestParam(required = false, defaultValue = "20", value="itemsPerPage") Integer itemsPerPage) {
+    List<DocumentTo> search(@RequestParam(required = true,  value="content") String term, @RequestParam(required = false, defaultValue = "1", value="page") Integer page, @RequestParam(required = false, defaultValue = "20", value="itemsPerPage") Integer itemsPerPage) {
         PageRequest pageRequest = new PageRequest(page -1, itemsPerPage)
         return documentService.findByContent(term, pageRequest)
     }

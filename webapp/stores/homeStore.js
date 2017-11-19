@@ -19,16 +19,18 @@ class HomeStore {
         console.error(response);
         Hermes.clearMessages();
         Hermes.setContext('error');
-        Hermes.addMessage('Houve um problema e não foi possível busca os arquivos.', true);
+        Hermes.addMessage('Houve um problema e não foi possível buscar os arquivos.', true);
       });
   }
 
   @action
-  search() {
+  search(term) {
+    debugger;
     homeService
-      .findAll()
+      .search(term)
       .then(response => {
-        runInAction('Busca lista inicial', () => {
+        runInAction('Busca lista filtrada', () => {
+          debugger;
           this.files = response.data;
         });
       })
@@ -36,7 +38,7 @@ class HomeStore {
         console.error(response);
         Hermes.clearMessages();
         Hermes.setContext('error');
-        Hermes.addMessage('Houve um problema e não foi possível busca os arquivos.', true);
+        Hermes.addMessage('Houve um problema e não foi possível buscar os arquivos.', true);
       });
   }
 

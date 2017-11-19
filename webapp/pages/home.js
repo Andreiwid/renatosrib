@@ -33,7 +33,11 @@ class HomePage extends React.Component {
         </Modal>
         <div className="sv-row">
           <div className="sv-column">
-            <Filter />
+            <Filter
+              onFilter={term => {
+                homeStore.search(term);
+              }}
+            />
           </div>
         </div>
         <div className="sv-pv--10">

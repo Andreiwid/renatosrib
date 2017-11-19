@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery
 import org.springframework.stereotype.Service
 
 import static java.lang.Long.parseLong
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery
 
 @Service
 class IDocumentServiceImpl implements IDocumentService {
@@ -38,19 +39,16 @@ class IDocumentServiceImpl implements IDocumentService {
     @Override
     List<DocumentTo> findByContent(String content, Pageable pageRequest) {
 
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices("files")
+        //        content.split(" ").each {term ->
+//            searchQuery.withQuery(QueryBuilders.matchQuery("content", content))
+//        }
+        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder().withIndices("files")
                 .withPageable(pageRequest)
-                .withQuery(QueryBuilders.multiMatchQuery(
-                content.toLowerCase()).field("content").
-                fuzziness(Fuzziness.AUTO).analyzer("brazilian"))
-                .withQuery(QueryBuilders.multiMatchQuery(
-                content.toLowerCase()).field("content").
-                fuzziness(Fuzziness.AUTO).analyzer("english"))
+                .withQuery(matchQuery("content", content).fuzziness(Fuzziness.AUTO).prefixLength(3).analyzer("brazilian"))
                 .withHighlightFields(
                 new HighlightBuilder.Field("content"))
-                .build()
 
-        AggregatedPage<DocumentTo> documents = elasticsearchTemplate.queryForPage(searchQuery, Document.class, new SearchResultMapper() {
+        AggregatedPage<DocumentTo> documents = elasticsearchTemplate.queryForPage(searchQuery.build(), Document.class, new SearchResultMapper() {
             @Override
             public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable = pageRequest) {
                 List<DocumentTo> results = new ArrayList<DocumentTo>()

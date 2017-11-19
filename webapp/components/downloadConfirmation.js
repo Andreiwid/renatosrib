@@ -47,7 +47,7 @@ export default class DownloadConfirmation extends Component {
         {fileName}
         {path}
         {lastModification}
-        <ul>{contentHighlighted}</ul>
+        {contentHighlighted}
       </ul>
     );
   }
