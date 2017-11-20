@@ -25,6 +25,9 @@ class HomePage extends React.Component {
           confirmButtonText="Download"
           type="medium"
           isVisible={homeStore.fileToDownload != null}
+          onConfirm={() => {
+            homeStore.download();
+          }}
           onClose={() => {
             homeStore.closeFileDownload();
           }}

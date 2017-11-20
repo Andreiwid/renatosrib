@@ -1,6 +1,7 @@
 import { observable, computed, action, runInAction, toJS } from 'mobx';
 import homeService from '../services/homeService';
 import { Hermes } from 'syntec-apollo-11';
+import fileSaver from 'file-saver';
 
 class HomeStore {
   @observable files = [];
@@ -40,6 +41,11 @@ class HomeStore {
           Hermes.addMessage('Houve um problema e não foi possível buscar os arquivos.', true);
         });
     }
+  }
+
+  @action
+  download() {
+    return homeService.download(this.fileToDownload);
   }
 
   @action

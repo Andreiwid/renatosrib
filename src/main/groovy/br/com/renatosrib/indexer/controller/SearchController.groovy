@@ -4,10 +4,11 @@ import br.com.renatosrib.indexer.model.Document
 import br.com.renatosrib.indexer.service.IDocumentExtractorService
 import br.com.renatosrib.indexer.service.IDocumentService
 import br.com.renatosrib.indexer.to.DocumentTo
-import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument
+import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
+import org.apache.http.entity.mime.MultipartEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import java.nio.file.Files
 
 @RestController
 @RequestMapping("/api/files")
@@ -31,10 +36,20 @@ class SearchController {
         return "Ok"
     }
 
-    @RequestMapping(value = "/save", method = [RequestMethod.POST])
+    @RequestMapping(value = "/download", method = [RequestMethod.GET])
     @ResponseBody
-    Document save(Document document){
-        return documentService.save(document)
+    BufferedOutputStream save(@RequestParam String path, HttpServletResponse response){
+        try {
+            File file = new File(path)
+            response.addHeader("filename", file.name )
+            response.setContentType(Files.probeContentType(file.toPath()))
+            byte[] fileByte = FileUtils.readFileToByteArray(file);
+            response.getOutputStream().write(fileByte);
+            response.getOutputStream().flush();os arquivso
+        } catch (IOException ex) {
+            throw new RuntimeException("IOError writing file to output stream");
+        }
+
     }
 
     @RequestMapping(value = "/refresh", method = [RequestMethod.POST])

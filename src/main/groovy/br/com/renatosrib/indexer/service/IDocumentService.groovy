@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 
 interface IDocumentService {
-    public Document save(Document document)
+    public Document download(DocumentTo document)
 
     public List<DocumentTo> findByContent(String content, Pageable pageRequest)
 

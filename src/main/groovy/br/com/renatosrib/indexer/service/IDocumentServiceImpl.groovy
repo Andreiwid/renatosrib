@@ -32,8 +32,8 @@ class IDocumentServiceImpl implements IDocumentService {
 
 
     @Override
-    Document save(Document document) {
-        return repository.save(document)
+    Document download(DocumentTo document) {
+        return null;
     }
 
     @Override
