@@ -31,11 +31,6 @@ class SearchController {
     @Autowired
     IDocumentExtractorService documentExtractorService
 
-    @RequestMapping("/ok")
-    String ok() {
-        return "Ok"
-    }
-
     @RequestMapping(value = "/download", method = [RequestMethod.GET])
     @ResponseBody
     BufferedOutputStream save(@RequestParam String path, HttpServletResponse response){
@@ -43,11 +38,12 @@ class SearchController {
             File file = new File(path)
             response.addHeader("filename", file.name )
             response.setContentType(Files.probeContentType(file.toPath()))
-            byte[] fileByte = FileUtils.readFileToByteArray(file);
-            response.getOutputStream().write(fileByte);
-            response.getOutputStream().flush();os arquivso
+            byte[] fileByte = FileUtils.readFileToByteArray(file)
+            response.getOutputStream().write(fileByte)
+            response.getOutputStream().flush()
         } catch (IOException ex) {
-            throw new RuntimeException("IOError writing file to output stream");
+            ex.printStackTrace()
+            throw new RuntimeException("Houve uma falha e não foi possível disponibilizar o download")
         }
 
     }
