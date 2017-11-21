@@ -34,6 +34,8 @@ bootRun {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.9'
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-data-elasticsearch:${springBootVersion}")
     compile "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     compile group: 'org.apache.tika', name: 'tika-core', version: '1.16'
